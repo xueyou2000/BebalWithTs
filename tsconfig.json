@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "es6",
+        "sourceMap": true,
+        "strict": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "resolveJsonModule": true,
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        }
+    }
+}
