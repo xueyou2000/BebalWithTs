@@ -1,22 +1,25 @@
-import * as path from 'path';
-import * as Webpack from 'webpack';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as CopyWebpackPlugin from 'copy-webpack-plugin';
-import * as CleanWebpackPlugin from 'clean-webpack-plugin';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import * as FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
-import * as OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import path from 'path';
+import Webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-
 import { BasicConfiguration, ConfigurationFactory, WebpackBuildEnvironmentEnum, IEnvironmentConfiguration } from './Properties';
 
-export default (nodeEnv: { env: WebpackBuildEnvironmentEnum }) => {
+export default () => {
 
-    if (!nodeEnv) { throw new Error('Must specify param env'); }
+    if (!process.env.WEBPACK_ENV || !(process.env.WEBPACK_ENV in WebpackBuildEnvironmentEnum)) {
+        throw new Error('Must Specify Environmental ariable  WEBPACK_ENV');
+    }
 
-    const devMode = nodeEnv.env === WebpackBuildEnvironmentEnum.prod;
-    const config = ConfigurationFactory(nodeEnv.env);
+    const env: WebpackBuildEnvironmentEnum = process.env.WEBPACK_ENV as WebpackBuildEnvironmentEnum;
+
+    const devMode = env === WebpackBuildEnvironmentEnum.dev;
+    const config = ConfigurationFactory(env);
 
     const webpackConfig: Webpack.Configuration = {
         entry: './src/main.ts',
@@ -94,7 +97,7 @@ export default (nodeEnv: { env: WebpackBuildEnvironmentEnum }) => {
         optimization: {
             removeEmptyChunks: true,
             removeAvailableModules: false,
-            minimize: nodeEnv.env === WebpackBuildEnvironmentEnum.prod,
+            minimize: env === WebpackBuildEnvironmentEnum.prod,
         },
         plugins: GetPlugins(devMode, config),
     };

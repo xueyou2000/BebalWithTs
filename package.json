@@ -4,9 +4,9 @@
   "description": "babel7+ts+webpack项目模板",
   "main": "index.js",
   "scripts": {
-    "set-env": "cross-env TS_NODE_PROJECT=tsconfig-for-webpack-config.json",
-    "dev": "cnpm run set-env webpack-dev-server --https --nodeEnv.env dev",
-    "build": "cnpm run set-env  webpack --nodeEnv.env dev"
+    "set-env": "cross-env TS_NODE_PROJECT=tsconfigwebpack.json",
+    "dev": "cnpm run set-env cross-env WEBPACK_ENV=dev webpack-dev-server",
+    "build": "cnpm run set-env cross-env WEBPACK_ENV=prod webpack"
   },
   "keywords": [
     "babel7",
@@ -47,6 +47,7 @@
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.7.0",
     "tslib": "^1.9.3",
+    "tslint": "^5.11.0",
     "typescript": "^3.2.2",
     "url-loader": "^1.1.2",
     "webpack": "^4.27.1",
